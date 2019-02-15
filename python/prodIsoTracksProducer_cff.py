@@ -4,14 +4,13 @@ from PhysicsTools.NanoAOD.common_cff import *
 def setupprodIsoTracksVariables(process, runOnMC=False, path=None):
     process.IsoTracksTable = cms.EDProducer("prodIsoTracksProducer",
                                       vtxSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
-                                      forVetoIsoTrkSrc  = cms.InputTag("trackIsolation"),
                                       loose_isoTrkSrc   = cms.InputTag("packedPFCandidates"),
                                       exclPdgIdVec      = cms.vint32(),
                                       dR_ConeSize       = cms.double(0.3),
                                       dz_CutValue       = cms.double(0.1),
                                       minPt_PFCandidate = cms.double(5.0),
                                       isoCut            = cms.double(0.5),
-                                      debug             = cms.bool(False),
+                                      debug             = cms.bool(True),
 				      isoTrackName      = cms.string("IsoTrack"),
                                       nisoTrackName     = cms.string("nIsoTrack"),
 				      )
