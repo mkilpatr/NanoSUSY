@@ -180,9 +180,9 @@ void prodIsoTracksProducer::produce(edm::Event& iEvent, const edm::EventSetup& i
            if( trkiso/isoTrk.pt() > isoCut_ ) continue;
            if( std::abs(isoTrk.dz()) > dzcut_ ) continue;
 
-	   edm::Ptr<reco::Candidate> c = pfcandsPtr_->ptrAt(is);
-	   selCandPf->push_back(c);           
-           loose_isoTrks_iso.push_back(trkiso);
+           edm::Ptr<reco::Candidate> c = pfcandsPtr_->ptrAt(is);
+           selCandPf->push_back(c);           
+           loose_isoTrks_iso.push_back(trkiso/isoTrk.pt());
            
            if( debug_ ){
               std::cout<<"  --> is : "<<is<<"  pt/eta/phi/chg/mass : "<<isoTrk.pt()<<"/"<<isoTrk.eta()<<"/"<<isoTrk.phi()<<"/"<<isoTrk.charge()<<"/"<<isoTrk.mass()<<"  pdgId : "<<(*loose_isoTrksHandle_)[is].pdgId()<<"  dz : " << isoTrk.dz()<<"  iso/pt : "<<trkiso/isoTrk.pt()<<std::endl;
@@ -199,7 +199,7 @@ void prodIsoTracksProducer::produce(edm::Event& iEvent, const edm::EventSetup& i
 
       auto out = std::make_unique<nanoaod::FlatTable>(selCandPf->size(), isoTrackName_, false); 
       out->setDoc("save Iso Track variables");
-      out->addColumn<float>("iso",         loose_isoTrks_iso,    "iso of track" , nanoaod::FlatTable::FloatColumn,10);
+      out->addColumn<float>("pfRelIso03_chg",         loose_isoTrks_iso,    "iso of track" , nanoaod::FlatTable::FloatColumn,10);
       
       iEvent.put(std::move(single), nisoTrackName_);
       iEvent.put(std::move(out),isoTrackName_);
